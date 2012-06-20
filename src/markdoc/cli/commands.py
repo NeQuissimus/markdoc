@@ -327,8 +327,12 @@ def serve(config, args):
     log = logging.getLogger('markdoc.serve')
     app = MarkdocWSGIApplication(config)
     
-    config['server.port'] = args.port
-    config['server.num-threads'] = args.num_threads
+    if (not config['server.port']) or (args.port != 8008):
+        config['server.port'] = args.port
+    
+    if (not config['server.num-threads']) or (args.num_threads != 10):
+        config['server.num-threads'] = args.num_threads
+        
     if args.server_name:
         config['server.name'] = args.server_name
     config['server.request-queue-size'] = args.queue_size
